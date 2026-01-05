@@ -1,0 +1,5 @@
+{
+  "name": "轻记 (LightLog)",
+  "description": "A minimalist iOS-inspired calorie and fitness tracker. Track daily intake, workouts, and visualize your progress with a clean, Apple Health-style interface.",
+  "requestFramePermissions": []
+}
