@@ -10,9 +10,10 @@ interface HomeViewProps {
   remaining: number;
   onAdd: (type: EntryType) => void;
   recentEntries: LogEntry[];
+  avatar: string;
 }
 
-const HomeView: React.FC<HomeViewProps> = ({ intake, burned, target, remaining, onAdd, recentEntries }) => {
+const HomeView: React.FC<HomeViewProps> = ({ intake, burned, target, remaining, onAdd, recentEntries, avatar }) => {
   // Ring calculation: Radius 80, Circumference 2 * PI * 80 approx 502
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
@@ -26,7 +27,7 @@ const HomeView: React.FC<HomeViewProps> = ({ intake, burned, target, remaining, 
         <div className="flex justify-between items-end">
           <h1 className="text-3xl font-bold tracking-tight text-black">轻记 LightLog</h1>
           <div className="w-10 h-10 rounded-full bg-white shadow-sm overflow-hidden border border-gray-100">
-            <img src="https://picsum.photos/seed/user/100/100" alt="Profile" className="w-full h-full object-cover" />
+            <img src={avatar} alt="Profile" className="w-full h-full object-cover" />
           </div>
         </div>
       </header>

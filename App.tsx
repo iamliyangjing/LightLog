@@ -30,6 +30,10 @@ const App: React.FC = () => {
     return saved ? parseInt(saved, 10) : 2000;
   });
 
+  const [avatar, setAvatar] = useState<string>(() => {
+    return localStorage.getItem('lightlog_avatar') || 'https://picsum.photos/seed/lightlog/200/200';
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<EntryType>(EntryType.DIET);
 
@@ -40,6 +44,10 @@ const App: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('lightlog_target', dailyTarget.toString());
   }, [dailyTarget]);
+
+  useEffect(() => {
+    localStorage.setItem('lightlog_avatar', avatar);
+  }, [avatar]);
 
   const addEntry = (name: string, calories: number, type: EntryType, duration?: number) => {
     const newEntry: LogEntry = {
@@ -55,6 +63,13 @@ const App: React.FC = () => {
 
   const deleteEntry = (id: string) => {
     setEntries(prev => prev.filter(e => e.id !== id));
+  };
+
+  const resetData = () => {
+    if (window.confirm('确定要清除所有记录吗？此操作不可撤销。')) {
+      setEntries([]);
+      alert('已重置所有数据');
+    }
   };
 
   const todayEntries = useMemo(() => {
@@ -94,6 +109,7 @@ const App: React.FC = () => {
               remaining={remaining}
               onAdd={handleOpenAdd}
               recentEntries={todayEntries}
+              avatar={avatar}
             />
           )}
           {activeTab === 'history' && (
@@ -103,7 +119,14 @@ const App: React.FC = () => {
             <StatsView entries={entries} target={dailyTarget} />
           )}
           {activeTab === 'settings' && (
-            <SettingsView target={dailyTarget} setTarget={setDailyTarget} />
+            <SettingsView 
+              target={dailyTarget} 
+              setTarget={setDailyTarget} 
+              avatar={avatar} 
+              setAvatar={setAvatar}
+              onReset={resetData}
+              entries={entries}
+            />
           )}
         </div>
       </main>
